@@ -43,6 +43,8 @@
 #' gmeta()
 #' }
 
+library(raster)
+
 setup_grass_environment <- function(dem, gisBase, epsg = NULL, sites = NULL, ...){
   if(!is.null(sites))
     message(writeLines(strwrap("'sites' is no longer a parameter of setup_grass_environment (see help).\n
