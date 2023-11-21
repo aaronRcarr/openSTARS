@@ -56,7 +56,7 @@ setup_grass_environment <- function(dem, gisBase, epsg = NULL, sites = NULL, ...
                                width = 80)))
   
   use_sp()
-  dem_grid <- as(raster(terra::rast(dem)), "SpatialGridDataFrame") # rgdal::readGDAL(dem, silent = TRUE)
+  dem_grid <- as(raster::raster(terra::rast(dem)), "SpatialGridDataFrame") # rgdal::readGDAL(dem, silent = TRUE)
   initGRASS(gisBase = gisBase,
             SG = dem_grid,
             mapset = "PERMANENT",
