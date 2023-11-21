@@ -57,11 +57,11 @@ setup_grass_environment <- function(dem, gisBase, epsg = NULL, sites = NULL, ...
   
   use_sp()
   dem_grid <- as(raster::raster(terra::rast(dem)), "SpatialGridDataFrame") # rgdal::readGDAL(dem, silent = TRUE)
-  initGRASS(gisBase = gisBase,
+  rgrass::initGRASS(gisBase = gisBase,
             SG = dem_grid,
             mapset = "PERMANENT",
             ...)
-  execGRASS("g.proj", flags = c("c", "quiet"),
+  rgrass::execGRASS("g.proj", flags = c("c", "quiet"),
             parameters = list(
               georef = dem
             ))
@@ -116,13 +116,13 @@ grass_v.to.db <- function(map, option, type = "line", columns, format){
 #             ), ignore.stderr = TRUE)
 #   }
   
-  execGRASS("v.db.addcolumn", flags = "quiet",
+  rgrass::execGRASS("v.db.addcolumn", flags = "quiet",
             parameters = list(
               map = map,
               columns = paste0(paste(columns, format), collapse = ",")
             ))
 
-  check <- try(execGRASS("v.to.db", flags = c("quiet"),
+  check <- try(rgrass::execGRASS("v.to.db", flags = c("quiet"),
                          parameters = list(
                            map = map,
                            option = option,
@@ -132,13 +132,13 @@ grass_v.to.db <- function(map, option, type = "line", columns, format){
   # use overwrite for Grass 7.8
   # still does not know overwrite flag!
   if(class(check) == "try-error"){
-    execGRASS("v.db.dropcolumn", flags = "quiet",
+    rgrass::execGRASS("v.db.dropcolumn", flags = "quiet",
               parameters = list(
                 map = map,
                 columns = paste0(columns, collapse = ",")
               ))
     
-    execGRASS("v.to.db", flags = c("quiet"),
+    rgrass::execGRASS("v.to.db", flags = c("quiet"),
               parameters = list(
                 map = map,
                 option = option,
