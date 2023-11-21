@@ -23,6 +23,8 @@ knitr::opts_chunk$set(
 It prepares the .ssn object needed for the SSN package.
 A digital elevation model (DEM) is used to derive stream networks (in contrast to STARS that can clean an existing stream network). The reason for this is that existing stream networks (e.g. obtained as shape files) very often contain loops and dead ends that hinder building a valid topology for them.
 
+rgrass7 calls were replaced with rgrass, SSN calls replaced with SSN2, and rgdal functions with their equivalent terra counterpart on 11/21/23.
+
 For more information on STARS and SSN, see [their web page](http://www.fs.fed.us/rm/boise/AWAE/projects/SpatialStreamNetworks.shtml).
 
 Peterson, E. E., & Ver Hoef, J. M. (2014). STARS: An ArcGIS Toolset Used to Calculate the Spatial Information Needed to Fit Spatial Statistical Models to Stream Network Data. J Stat Softw, 56(2), 1–17.

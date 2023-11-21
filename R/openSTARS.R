@@ -6,7 +6,7 @@
 #' r.stream.distance, r.stream.order, and r.hydrodem is needed.
 #'
 #' 
-#' @import rgrass7
+#' @import rgrass
 #' @import data.table
 #' 
 #' @docType package

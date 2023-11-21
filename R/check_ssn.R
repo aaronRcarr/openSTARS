@@ -3,8 +3,8 @@
 #' This function roughly checks the 'SSN' object. It returns FALSE if some 
 #' essential columns are missing or values have illegal values.
 #'
-#' @importFrom rgdal readOGR
-#' @import SSN
+#' @importFrom terra vect
+#' @import SSN2
 #'
 #' @param path character; path to .ssn object.
 #' @param predictions name(s) of prediction map(s) (optional).
@@ -107,7 +107,7 @@ check_ssn <- function(path, predictions = NULL) {
     }
   }
   
-  edges <- readOGR(path, "edges", verbose = FALSE)
+  edges <- as(vect(x = path, layer = "edges"), "Spatial") # readOGR(path, "edges", verbose = FALSE)
   netIDs <- unique(edges$netID)
   bin_files <- list.files(path, pattern = "*.dat")
   if (all(bin_files %in% paste0("netID", netIDs, ".dat"))) {
@@ -169,7 +169,7 @@ check_ssn <- function(path, predictions = NULL) {
   
   # Obs. sites -------------------------------------------------------------------
   message("Checking sites.shp...")
-  sites <- readOGR(path, "sites", verbose = FALSE)
+  sites <- as(vect(x = path, layer = "sites"), "Spatial") # readOGR(path, "sites", verbose = FALSE)
   obl_cols <- c("rid", "pid", "locID", "netID", "upDist")
   obl_cols2 <- "H2OArea"
   if (all(obl_cols %in% names(sites@data)) & any(grepl(obl_cols2, names(sites@data)))) {
@@ -205,7 +205,7 @@ check_ssn <- function(path, predictions = NULL) {
   if(!is.null(predictions)){
     message("Checking Prediction sites...")
     for(i in 1:length(predictions)){
-      preds <- readOGR(path, predictions[i], verbose = FALSE)
+      preds <- as(vect(x = path, layer = predictions[i]), "Spatial") # readOGR(path, predictions[i], verbose = FALSE)
       obl_cols <- c("rid", "pid", "locID", "netID", "upDist", "H2OArea")
       if (all(obl_cols %in% names(preds@data))) {
         message("\tColumns...OK")

@@ -15,17 +15,17 @@ URL: https://github.com/MiKatt/openSTARS
 Depends:
     R (>= 3.3),
     data.table,
-    rgrass7
+    rgrass
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyLoad: true
 Imports:
     methods,
     progress,
-    rgdal,
+    terra,
     sp,
     raster,
-    SSN
+    SSN2
 RoxygenNote: 7.1.2
 Suggests: knitr,
     rmarkdown

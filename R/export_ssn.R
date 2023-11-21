@@ -3,7 +3,7 @@
 #' This function exports the calculated sites, edges and binary IDs
 #' to a folder which then can be read using the 'SSN' package.
 #'
-#' @import rgrass7
+#' @import rgrass
 #' @importFrom utils write.table
 #'
 #' @param path character; path to write .ssn object to.

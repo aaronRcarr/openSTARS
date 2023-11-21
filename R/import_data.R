@@ -332,7 +332,7 @@ import_vector_data <- function(data, name, layer = NULL, proj_ref_obj = NULL, sn
     #   }
     # }
     #if(import_flag) {
-        rgdal::writeOGR(obj = data, dsn = tempdir(), layer = name, driver="ESRI Shapefile", overwrite_layer = TRUE)
+        terra::writeVector(vect(x = data), layer = name, overwrite_layer = TRUE) # rgdal::writeOGR(obj = data, dsn = tempdir(), layer = name, driver="ESRI Shapefile", overwrite_layer = TRUE)
         data <- file.path(tempdir(), paste0(name, ".shp"))
       #}
   } 
