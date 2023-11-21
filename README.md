@@ -1,22 +1,9 @@
----
-output:
-  github_document
----
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 
 openSTARS
 =============
 
-```{r echo=FALSE}
-knitr::opts_chunk$set(
-  eval = TRUE,
-  warning = FALSE,
-  message = FALSE,
-  collapse = TRUE,
-  comment = "#>"
-)
-```
 
 ## Introduction
 `openSTARS` is an open source implementation of the STARS toolbox for ArcGIS (Peterson & Ver Hoef, 2014) using R and GRASS GIS.
