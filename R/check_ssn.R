@@ -155,7 +155,7 @@ check_ssn <- function(path, predictions = NULL) {
     message("\tnetID > 0...FAIL!")
   }
   
-  ssn <- importSSN(path)
+  ssn <- ssn_import(path)
   ssn <- additive.function(ssn, "H2OArea", "afv_computed")
   r_afv <- range(ssn@data$afv_computed)
   
