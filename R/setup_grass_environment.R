@@ -43,8 +43,6 @@
 #' gmeta()
 #' }
 
-library(raster)
-
 setup_grass_environment <- function(dem, gisBase, epsg = NULL, sites = NULL, ...){
   if(!is.null(sites))
     message(writeLines(strwrap("'sites' is no longer a parameter of setup_grass_environment (see help).\n
@@ -55,7 +53,6 @@ setup_grass_environment <- function(dem, gisBase, epsg = NULL, sites = NULL, ...
                                The function will still execute normally. Please update your code.",
                                width = 80)))
   
-  use_sp()
   dem_grid <- as(raster::raster(terra::rast(dem)), "SpatialGridDataFrame") # rgdal::readGDAL(dem, silent = TRUE)
   rgrass::initGRASS(gisBase = gisBase,
             SG = dem_grid,
