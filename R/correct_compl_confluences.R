@@ -407,7 +407,7 @@ correct_compl_confluences <- function(clean = TRUE){
     }
     df.move_streams <- merge(df.move_streams, dt.smallcut[, .(stream, cat_small, str_new_small)], by.x = "cut_stream", by.y = "stream")
     df.move_streams <- merge(df.move_streams, dt.largecut[, .(stream, cat_large, str_new_large)], by.x = "cut_stream", by.y = "stream")
-    dt.move_streams <- data.table(df.move_streams)
+    dt.move_streams <- data.table(as.data.frame(df.move_streams))
     remove(df.move_streams)
     
     # assign updated stream (str_new) value to 'stream' for cut stream segments
