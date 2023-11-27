@@ -350,8 +350,8 @@ correct_compl_confluences <- function(clean = TRUE){
       }
     }
     # writeVECT produces new cat column; remove "cat_" from previous loop
-    if("cat_" %in% colnames(streams@data)){
-      streams@data <- streams@data[- which(colnames(streams@data) == "cat_")]
+    if("cat_" %in% names(streams)){ #if("cat_" %in% colnames(streams@data)){
+      streams <- drop(streams, "cat_'")
     }
     sink("temp.txt")
     write_VECT(streams, "streams_v", flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
@@ -445,7 +445,7 @@ correct_compl_confluences <- function(clean = TRUE){
     # Using data.table is about 10 times faster than execGRASS(v.db.update)   
     streams <- read_VECT(vname = "streams_v", 
                         ignore.stderr = TRUE, type = "line")
-    dt.streams <- data.table(streams@data)
+    dt.streams <- data.table(streams$data) #dt.streams <- data.table(streams@data)
     
     # Must all be in the loop over all junctions, because otherwise the sorting is wrong in the different tables
     for(j in 1:nrow(dt.junctions)){
@@ -520,7 +520,7 @@ correct_compl_confluences <- function(clean = TRUE){
     if("cat_" %in% colnames(dt.streams)){
       dt.streams[,  cat_ := NULL]
     }
-    streams@data <- data.frame(dt.streams)
+    streams$data <- data.frame(dt.streams) #streams@data <- data.frame(dt.streams)
     sink("temp.txt")
     write_VECT(streams, "streams_v", flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
     sink()
