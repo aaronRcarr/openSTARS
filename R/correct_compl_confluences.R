@@ -333,7 +333,7 @@ correct_compl_confluences <- function(clean = TRUE){
     
     # Seems to be the easiest way to assingn new, unique cat values to all features
     sink("temp.txt")
-    streams <- read_VECT(vname = "streams_v", remove.duplicates = FALSE, 
+    streams <- read_VECT(vname = "streams_v", 
                         ignore.stderr = TRUE, type = "line")
     sink()
     
@@ -354,7 +354,7 @@ correct_compl_confluences <- function(clean = TRUE){
       streams@data <- streams@data[- which(colnames(streams@data) == "cat_")]
     }
     sink("temp.txt")
-    write_VECT(streams, "streams_v", v.in.ogr_flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
+    write_VECT(streams, "streams_v", flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
     sink()
     rm("streams")
     
@@ -443,7 +443,7 @@ correct_compl_confluences <- function(clean = TRUE){
     message("Updating topology ...")
     
     # Using data.table is about 10 times faster than execGRASS(v.db.update)   
-    streams <- read_VECT(vname = "streams_v", remove.duplicates = FALSE, 
+    streams <- read_VECT(vname = "streams_v", 
                         ignore.stderr = TRUE, type = "line")
     dt.streams <- data.table(streams@data)
     
@@ -522,7 +522,7 @@ correct_compl_confluences <- function(clean = TRUE){
     }
     streams@data <- data.frame(dt.streams)
     sink("temp.txt")
-    write_VECT(streams, "streams_v", v.in.ogr_flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
+    write_VECT(streams, "streams_v", flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
     sink()
     rm("streams")
   }
