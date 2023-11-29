@@ -169,7 +169,15 @@ delete_lakes <- function(lakes, keep = TRUE){
   grass_v.to.db(map = "streams_wo_lakes", option = "length", columns = "new_length", format = "double")
   
   sink("temp.txt")
+  
   streams <- readVECT("streams_wo_lakes")
+  
+  # to sf
+  streams <- sf::st_as_sf(streams)
+  
+  # to SpatialLinesDataFrame
+  streams <- sf::as_Spatial(streams)
+  
   sink()
   
   ###################
