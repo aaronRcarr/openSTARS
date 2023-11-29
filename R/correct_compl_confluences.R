@@ -333,6 +333,7 @@ correct_compl_confluences <- function(clean = TRUE){
     
     # Seems to be the easiest way to assingn new, unique cat values to all features
     sink("temp.txt")
+    
     streams <- read_VECT(vname = "streams_v", 
                         ignore.stderr = TRUE, type = "line")
     sink()
@@ -407,7 +408,7 @@ correct_compl_confluences <- function(clean = TRUE){
     }
     df.move_streams <- merge(df.move_streams, dt.smallcut[, .(stream, cat_small, str_new_small)], by.x = "cut_stream", by.y = "stream")
     df.move_streams <- merge(df.move_streams, dt.largecut[, .(stream, cat_large, str_new_large)], by.x = "cut_stream", by.y = "stream")
-    dt.move_streams <- data.table(as.data.frame(df.move_streams))
+    dt.move_streams <- as.data.table(as.data.frame(df.move_streams))
     remove(df.move_streams)
     
     # assign updated stream (str_new) value to 'stream' for cut stream segments
@@ -445,7 +446,9 @@ correct_compl_confluences <- function(clean = TRUE){
     # Using data.table is about 10 times faster than execGRASS(v.db.update)   
     streams <- read_VECT(vname = "streams_v", 
                         ignore.stderr = TRUE, type = "line")
-    dt.streams <- data.table(as.data.frame(streams)) #dt.streams <- data.table(streams@data)
+    
+    
+    dt.streams <- as.data.table(as.data.frame(streams)) #dt.streams <- data.table(streams@data)
     
     # Must all be in the loop over all junctions, because otherwise the sorting is wrong in the different tables
     for(j in 1:nrow(dt.junctions)){
