@@ -170,7 +170,7 @@ delete_lakes <- function(lakes, keep = TRUE){
   
   sink("temp.txt")
   
-  streams <- readVECT("streams_wo_lakes")
+  streams <- read_VECT("streams_wo_lakes")
   
   # to sf
   streams <- sf::st_as_sf(streams)
