@@ -336,6 +336,12 @@ correct_compl_confluences <- function(clean = TRUE){
     
     streams <- read_VECT(vname = "streams_v", 
                         ignore.stderr = TRUE, type = "line")
+    # to sf
+    streams <- sf::st_as_sf(streams)
+    
+    # to SpatialLinesDataFrame
+    streams <- sf::as_Spatial(streams)
+      
     sink()
     
     nstream <- max(streams$stream) + 1
@@ -447,6 +453,11 @@ correct_compl_confluences <- function(clean = TRUE){
     streams <- read_VECT(vname = "streams_v", 
                         ignore.stderr = TRUE, type = "line")
     
+    # to sf
+    streams <- sf::st_as_sf(streams)
+    
+    # to SpatialLinesDataFrame
+    streams <- sf::as_Spatial(streams)
     
     dt.streams <- as.data.table(as.data.frame(streams)) #dt.streams <- data.table(streams@data)
     

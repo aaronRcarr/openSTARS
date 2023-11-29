@@ -25,7 +25,8 @@ Imports:
     terra,
     sp,
     raster,
-    SSN2
+    SSN2,
+    sf
 RoxygenNote: 7.1.2
 Suggests: knitr,
     rmarkdown
