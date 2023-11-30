@@ -288,6 +288,7 @@ import_data <- function(dem, band = 1, sites, streams = NULL, snap_streams = FAL
 #'}
 #' 
 #' @author Mira Kattwinkel, \email{mira.kattwinkel@@gmx.net}
+#' @export
 
 import_vector_data <- function(data, name, layer = NULL, proj_ref_obj = NULL, snap = -1){
   # flag "-r": only current region
