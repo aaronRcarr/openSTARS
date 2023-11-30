@@ -94,7 +94,7 @@ delete_lakes <- function(lakes, keep = TRUE){
     }
   } else {
     message("Importing lakes ...")
-    import_vector_data(data = lakes, name = "lakes")
+    openSTARS:::import_vector_data(data = lakes, name = "lakes")
   }
   
   vect <- execGRASS("g.list",
