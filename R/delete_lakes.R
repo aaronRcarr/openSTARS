@@ -204,7 +204,7 @@ delete_lakes <- function(lakes, keep = TRUE){
               type = "vector",
               name = "streams_wo_lakes"
             ))
-  dt.streams <- data.table(streams@data)
+  dt.streams <- as.data.table(as.data.frame(streams)) # dt.streams <- data.table(streams@data)
   dt.streams[, colnames(dt.streams)[grep("^b_", colnames(dt.streams))] := NULL]
   dt.streams[, which(colnames(dt.streams) %in% c("a_cat", "a_cat_")) := NULL]
   colnames(dt.streams) <- gsub("^a_", "", colnames(dt.streams))
@@ -374,7 +374,7 @@ delete_lakes <- function(lakes, keep = TRUE){
   # delete unneeded columns
   dt.streams[, c("end_x", "end_y", "start_x", "start_y", "end_xy", "start_xy", "str_new_lake", "new_length") := NULL]
   # save updated streams_v
-  streams@data <- data.frame(dt.streams)
+  streams$data <- data.frame(dt.streams) # streams@data <- data.frame(dt.streams)
   sink("temp.txt")
   writeVECT(streams, "streams_v", v.in.ogr_flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
   sink()
