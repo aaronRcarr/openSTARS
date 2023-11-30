@@ -209,7 +209,15 @@ prepare_sites <- function(sites_map, locid_c = NULL, pid_c = NULL, maxdist = NUL
   #! This is in R faster than in GRASS!? (which has to write to hard-drive)
   #! Other possibilities in GRASS to change coordinates?
   #! use r.stream.snap alternatively?
-  sites <- readVECT(sites_map, type = "point", ignore.stderr = TRUE)
+  sites <- read_VECT(vname = "sites_map", # sites <- readVECT(sites_map, type = "point", ignore.stderr = TRUE)
+                                ignore.stderr = TRUE, type = "point")
+  
+  # to sf
+  sites <- sf::st_as_sf(sites)
+  
+  # to SpatialLinesDataFrame
+  sites <- sf::as_Spatial(sites)
+  
   proj4 <- proj4string(sites)
   sites <-  as(sites, "data.frame")
   sp::coordinates(sites) <-  ~ NEAR_X + NEAR_Y
