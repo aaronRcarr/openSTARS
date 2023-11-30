@@ -459,7 +459,7 @@ correct_compl_confluences <- function(clean = TRUE){
     # to SpatialLinesDataFrame
     streams <- sf::as_Spatial(streams)
     
-    dt.streams <- as.data.table(as.data.frame(streams)) #dt.streams <- data.table(streams@data)
+    dt.streams <- data.table(streams@data)
     
     # Must all be in the loop over all junctions, because otherwise the sorting is wrong in the different tables
     for(j in 1:nrow(dt.junctions)){
@@ -534,7 +534,7 @@ correct_compl_confluences <- function(clean = TRUE){
     if("cat_" %in% colnames(dt.streams)){
       dt.streams[,  cat_ := NULL]
     }
-    streams$data <- data.frame(dt.streams) #streams@data <- data.frame(dt.streams)
+    streams@data <- data.frame(dt.streams)
     sink("temp.txt")
     write_VECT(streams, "streams_v", flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
     sink()
