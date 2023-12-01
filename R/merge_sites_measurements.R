@@ -82,7 +82,14 @@ merge_sites_measurements <- function(measurements, site_id, all_sites = FALSE, .
                                    paste0(colnames(measurements), collapse = ", ")))
   }
   
-  sites <- readVECT("sites", ignore.stderr = TRUE)
+  sites <- read_VECT("sites", ignore.stderr = TRUE)
+  
+  # to sf
+  sites <- sf::st_as_sf(sites)
+  
+  # to SpatialLinesDataFrame
+  sites <- sf::as_Spatial(sites)
+  
   if(!site_id %in% colnames(sites@data)){
     #stop(writeLines(strwrap(paste0("'site_id' (", site_id, ") must contain a valid colum name in 'sites'. Options are: ", 
     #                               paste0(colnames(sites@data), collapse = ", ")), width = 80)))
@@ -98,6 +105,9 @@ merge_sites_measurements <- function(measurements, site_id, all_sites = FALSE, .
   d <- d[,-i]
   sites@data <- d
   sink("temp.txt")
-  writeVECT(sites, "sites", v.in.ogr_flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
+  
+  # back to SpatVector
+  sites <- terra::vect(sites)
+  write_VECT(sites, "sites", flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
   sink() 
 }
