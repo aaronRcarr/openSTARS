@@ -84,7 +84,7 @@ delete_lakes <- function(lakes, keep = TRUE){
                       type = "vector"
                     ), intern = TRUE)
   
-  if(lakes %in% vect){
+  if(lakes %in% vect){ # this needs fixed
     if(lakes != "lakes"){
     message(paste("Renaming", lakes, "to 'lakes'"))
     execGRASS("g.copy", flags = c("overwrite", "quiet"), 
@@ -367,7 +367,7 @@ delete_lakes <- function(lakes, keep = TRUE){
   dt.streams[, out_dist := 0]
   outlets <- dt.streams[next_str == -1, stream]
   for(i in outlets){
-    calc_outdist(dt.streams, id=i)
+    openSTARS:::calc_outdist(dt.streams, id=i)
   }
   
   
@@ -376,7 +376,12 @@ delete_lakes <- function(lakes, keep = TRUE){
   # save updated streams_v
   streams@data <- data.frame(dt.streams)
   sink("temp.txt")
-  writeVECT(streams, "streams_v", v.in.ogr_flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
+  
+  # to sf
+  streams <- terra::vect(streams)
+  
+  write_VECT(streams, "streams_v", flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
+  
   sink()
   
   execGRASS("v.db.dropcolumn", flags = c("quiet"),

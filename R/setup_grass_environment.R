@@ -119,7 +119,7 @@ grass_v.to.db <- function(map, option, type = "line", columns, format){
               columns = paste0(paste(columns, format), collapse = ",")
             ))
 
-  check <- try(rgrass::execGRASS("v.to.db", flags = c("quiet"),
+  check <- try(rgrass::execGRASS("v.to.db", flags = c("quiet", "overwrite"),
                          parameters = list(
                            map = map,
                            option = option,
