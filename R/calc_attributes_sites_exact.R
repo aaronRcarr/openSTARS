@@ -218,7 +218,13 @@ calc_attributes_sites_exact <- function(sites_map = "sites",
                 paste0("'", vect, "'", collapse = ", ")))
   }
   
-  d.sites <- readVECT(sites_map, ignore.stderr = TRUE)
+  d.sites <- read_VECT(sites_map, ignore.stderr = TRUE) # d.sites <- readVECT(sites_map, ignore.stderr = TRUE)
+  
+  # to sf
+  d.sites <- sf::st_as_sf(d.sites)
+  
+  # to SpatialLinesDataFrame
+  d.sites <- sf::as_Spatial(d.sites)
   
   if(!all(paste0(sites_map, "_catchm_", d.sites@data$locID) %in% rast)){
     calc_basin_area <- TRUE
@@ -237,7 +243,7 @@ calc_attributes_sites_exact <- function(sites_map = "sites",
     colnames(dat.h2o) <- c("H2OArea")
   } 
   if(!is.null(input_raster)){
-    vals.rast <- lapply(1:length(input_raster), function(x) ifelse(stat_rast[x] == "percent", list(get_all_raster_values(input_raster[x])), 1))
+    vals.rast <- lapply(1:length(input_raster), function(x) ifelse(stat_rast[x] == "percent", list(openSTARS:::get_all_raster_values(input_raster[x])), 1))
     ndat <- length(unlist(vals.rast))
     dat.rast <- matrix(nrow = length(locID), ncol = ndat, data = 0)
     cnames.rast <- lapply(1:length(attr_name_rast), function(x) ifelse(stat_rast[x] %in% c("percent", "area"),
