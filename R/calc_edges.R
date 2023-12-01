@@ -175,7 +175,7 @@ calc_edges <- function() {
   outlets <- dt.streams[next_str == -1, stream]
   netID <- 1
   for(i in outlets){
-    calcCatchmArea_assignNetID(dt.streams, id=i, netID)
+    openSTARS:::calcCatchmArea_assignNetID(dt.streams, id=i, netID)
     netID <- netID + 1
   }
 

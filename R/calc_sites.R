@@ -138,18 +138,18 @@ calc_sites <- function(locid_col = NULL, pid_col = NULL, predictions = NULL, max
     if(!is.character(predictions)){
       stop("'predictions' must be the name of the predictions sites in the GRASS DB imported with import_data() (usually 'preds_o').")
     }
-    i <- grep("_o$",predictions)
+    i <- grep("_o$", predictions)
     if(length(i) > 0){
       predictions[-i] <- paste0(predictions[-i],"_o")
     } else
-      predictions <- paste0(predictions,"_o")     
+      predictions <- paste0(predictions,"_o")    
     if (any(!predictions %in% vect))
       stop("Prediction sites not found. Did you run import_data() on them?")
   }
   
   site_maps <- c("sites", predictions)
   site_maps <- sub("_o$","", site_maps)
-  s <- sapply(site_maps, prepare_sites, locid_c = locid_col, pid_c = pid_col, maxdist = maxdist)
+  s <- sapply(site_maps, openSTARS:::prepare_sites, locid_c = locid_col, pid_c = pid_col, maxdist = maxdist)
   
   execGRASS("v.db.dropcolumn",
             map = "sites",
@@ -170,11 +170,13 @@ calc_sites <- function(locid_col = NULL, pid_col = NULL, predictions = NULL, max
 #' This function is called by \code{calc_sites} and should not be called directly.
 #' Sites are snapped to the streams and upstream distance is calculated.
 #'
+#' @export
+
 prepare_sites <- function(sites_map, locid_c = NULL, pid_c = NULL, maxdist = NULL){
   execGRASS("g.copy",
             flags = c("overwrite", "quiet"),
             parameters = list(
-              vector = paste0(paste0(sites_map,"_o"), ",",sites_map)))
+              vector = paste0(paste0(sites_map,"_o"), ",", sites_map)))
   
   message(paste0("Preparing sites '", sites_map, "' ..."))
   # Snap sites to streams --------
@@ -209,8 +211,7 @@ prepare_sites <- function(sites_map, locid_c = NULL, pid_c = NULL, maxdist = NUL
   #! This is in R faster than in GRASS!? (which has to write to hard-drive)
   #! Other possibilities in GRASS to change coordinates?
   #! use r.stream.snap alternatively?
-  sites <- read_VECT(vname = "sites_map", # sites <- readVECT(sites_map, type = "point", ignore.stderr = TRUE)
-                                ignore.stderr = TRUE, type = "point")
+  sites <- read_VECT(vname = "sites_map", ignore.stderr = TRUE, type = "point") # sites <- readVECT(sites_map, type = "point", ignore.stderr = TRUE)
   
   # to sf
   sites <- sf::st_as_sf(sites)
@@ -295,8 +296,8 @@ prepare_sites <- function(sites_map, locid_c = NULL, pid_c = NULL, maxdist = NUL
   sites@data <- sites@data[,-i]
   sink("temp.txt")
   # 20180219: override projection check
-  writeVECT(sites, vname = sites_map,
-            v.in.ogr_flags = c("overwrite", "quiet", "o"),
+  write_VECT(sites, vname = sites_map,
+            flags = c("overwrite", "quiet", "o"),
             ignore.stderr = TRUE)
   rm(sites)
   sink() 

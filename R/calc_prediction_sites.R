@@ -87,6 +87,7 @@ calc_prediction_sites <- function(predictions, dist = NULL, nsites = 10,
   # MiKatt 20200717
   # WARNING: Values in column <cat> will be overwritten
 
+  
   vect <- execGRASS("g.list",
                     parameters = list(
                       type = "vect"
@@ -133,7 +134,7 @@ calc_prediction_sites <- function(predictions, dist = NULL, nsites = 10,
   message("Calculating point positions ...")
   outlets <- dt.streams[next_str == -1, stream]
   for(i in outlets){
-    calc_offset(dt.streams, id=i, offs = 0, dist)
+    openSTARS:::calc_offset(dt.streams, id=i, offs = 0, dist)
   }
 
   pt <- 1
