@@ -211,7 +211,7 @@ prepare_sites <- function(sites_map, locid_c = NULL, pid_c = NULL, maxdist = NUL
   #! This is in R faster than in GRASS!? (which has to write to hard-drive)
   #! Other possibilities in GRASS to change coordinates?
   #! use r.stream.snap alternatively?
-  sites <- read_VECT(vname = "sites_map", ignore.stderr = TRUE, type = "point") # sites <- readVECT(sites_map, type = "point", ignore.stderr = TRUE)
+  sites <- read_VECT(vname = sites_map, ignore.stderr = TRUE, type = "point") # sites <- readVECT(sites_map, type = "point", ignore.stderr = TRUE)
   
   # to sf
   sites <- sf::st_as_sf(sites)
@@ -219,10 +219,10 @@ prepare_sites <- function(sites_map, locid_c = NULL, pid_c = NULL, maxdist = NUL
   # to SpatialLinesDataFrame
   sites <- sf::as_Spatial(sites)
   
-  proj4 <- proj4string(sites)
+  proj4 <- sp::proj4string(sites)
   sites <-  as(sites, "data.frame")
   sp::coordinates(sites) <-  ~ NEAR_X + NEAR_Y
-  proj4string(sites) <- proj4
+  sp::proj4string(sites) <- proj4
   names(sites)[names(sites) %in% c( "coords.x1", "coords.x2")] <- c("NEAR_X", "NEAR_Y")
   sites$cat_ <- NULL
   
@@ -296,7 +296,9 @@ prepare_sites <- function(sites_map, locid_c = NULL, pid_c = NULL, maxdist = NUL
   sites@data <- sites@data[,-i]
   sink("temp.txt")
   # 20180219: override projection check
-  write_VECT(sites, vname = sites_map,
+  
+  # sites back to SpatVector
+  write_VECT(terra::vect(sites), vname = sites_map,
             flags = c("overwrite", "quiet", "o"),
             ignore.stderr = TRUE)
   rm(sites)
