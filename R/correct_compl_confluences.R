@@ -361,6 +361,10 @@ correct_compl_confluences <- function(clean = TRUE){
       streams <- streams[, !names(streams) == "cat_"]
     }
     sink("temp.txt")
+    
+    # to sf
+    streams <- terra::vect(streams)
+    
     write_VECT(streams, "streams_v", flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
     sink()
     rm("streams")
@@ -536,6 +540,10 @@ correct_compl_confluences <- function(clean = TRUE){
     }
     streams@data <- data.frame(dt.streams)
     sink("temp.txt")
+    
+    # to sf
+    streams <- terra::vect(streams)
+    
     write_VECT(streams, "streams_v", flags = c("overwrite", "quiet", "o"), ignore.stderr = TRUE)
     sink()
     rm("streams")
