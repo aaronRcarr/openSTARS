@@ -332,7 +332,7 @@ import_vector_data <- function(data, name, layer = NULL, proj_ref_obj = NULL, sn
     #   }
     # }
     #if(import_flag) {
-        terra::writeVector(vect(x = data), layer = name, overwrite_layer = TRUE) # rgdal::writeOGR(obj = data, dsn = tempdir(), layer = name, driver="ESRI Shapefile", overwrite_layer = TRUE)
+        terra::writeVector(x = terra::vect(data), layer = name, overwrite_layer = TRUE) # rgdal::writeOGR(obj = data, dsn = tempdir(), layer = name, driver="ESRI Shapefile", overwrite_layer = TRUE)
         data <- file.path(tempdir(), paste0(name, ".shp"))
       #}
   } 
@@ -346,7 +346,7 @@ import_vector_data <- function(data, name, layer = NULL, proj_ref_obj = NULL, sn
                   output =  name,
                   snap = snap,
                   extent = "region"),  # to import into current region (= flags("r") in v.in.ogr)
-                intern = TRUE, ignore.stderr = TRUE)      
+                intern = TRUE, ignore.stderr = TRUE)    
     } else {
       execGRASS("v.import", flags = c("overwrite", "quiet"),
                 parameters = list(
