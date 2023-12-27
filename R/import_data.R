@@ -288,15 +288,14 @@ import_data <- function(dem, band = 1, sites, streams = NULL, snap_streams = FAL
 #'}
 #' 
 #' @author Mira Kattwinkel, \email{mira.kattwinkel@@gmx.net}
-#' @export
 
 import_vector_data <- function(data, name, layer = NULL, proj_ref_obj = NULL, snap = -1){
   # flag "-r": only current region
   # import_flag <- TRUE
-  if(inherits(data, 'sf')){
-    data <- as(data, 'Spatial')
+  if(inherits(data, 'sf') == FALSE){ #if(inherits(data, 'sf')){
+    data <- as(data, 'sf') #data <- as(data, 'spatial')
   }
-  if(inherits(data, 'Spatial')) {
+  if(inherits(data, 'sf')) { #  if(inherits(data, 'Spatial')) {
     # if(!is.null(proj_ref_obj)){
 
       # MIKatt 20200720
@@ -333,8 +332,8 @@ import_vector_data <- function(data, name, layer = NULL, proj_ref_obj = NULL, sn
     #   }
     # }
     #if(import_flag) {
-        terra::writeVector(terra::vect(x = data), filename = normalizePath(file.path(tempdir(), paste0(name, ".shp"))), filetype = "ESRI Shapefile", overwrite = TRUE) # rgdal::writeOGR(obj = data, dsn = tempdir(), layer = name, driver="ESRI Shapefile", overwrite_layer = TRUE)
-        data <- normalizePath(file.path(tempdir(), paste0(name, ".shp"))) # file.path(tempdir(), paste0(name, ".shp"))
+        sf::st_write(obj = data, dsn = tempdir(), layer = name, append = FALSE, driver = "ESRI Shapefile") # rgdal::writeOGR(obj = data, dsn = tempdir(), layer = name, driver="ESRI Shapefile", overwrite_layer = TRUE)
+        data <- file.path(tempdir(), paste0(name, ".shp"))
       #}
   } 
   #if(import_flag) {
@@ -347,7 +346,7 @@ import_vector_data <- function(data, name, layer = NULL, proj_ref_obj = NULL, sn
                   output =  name,
                   snap = snap,
                   extent = "region"),  # to import into current region (= flags("r") in v.in.ogr)
-                intern = TRUE, ignore.stderr = TRUE)      
+                intern = TRUE, ignore.stderr = TRUE)
     } else {
       execGRASS("v.import", flags = c("overwrite", "quiet"),
                 parameters = list(
